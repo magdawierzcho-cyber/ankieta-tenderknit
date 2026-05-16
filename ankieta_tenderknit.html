@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TENDER.KNIT — Ankieta</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #E8DFD0;
+  color: #1A1A1A;
+  font-family: 'Playfair Display', Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.survey {
+  max-width: 580px;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.brand {
+  font-size: 28px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.brand .dot { color: #B8743D; }
+
+.tagline {
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.65;
+  margin-bottom: 20px;
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background: #1A1A1A;
+  opacity: 0.3;
+  margin: 20px auto;
+}
+
+.intro {
+  font-size: 15px;
+  line-height: 1.7;
+  opacity: 0.75;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.question-card {
+  background: rgba(255, 255, 255, 0.45);
+  border: 0.5px solid rgba(26, 26, 26, 0.12);
+  border-radius: 12px;
+  padding: 32px 28px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.question-card:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.question-card.answered {
+  border-left: 3px solid #B8743D;
+}
+
+.q-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #B8743D;
+  margin-bottom: 10px;
+}
+
+.q-text {
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.q-hint {
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.5;
+  margin-bottom: 20px;
+}
+
+.options { list-style: none; }
+
+.options li {
+  margin-bottom: 10px;
+}
+
+.options label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.options label:hover {
+  background: rgba(184, 116, 61, 0.08);
+}
+
+.options input[type="radio"],
+.options input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 1.5px solid rgba(26, 26, 26, 0.3);
+  border-radius: 50%;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.options input[type="checkbox"] {
+  border-radius: 4px;
+}
+
+.options input[type="radio"]:checked,
+.options input[type="checkbox"]:checked {
+  border-color: #B8743D;
+  background: #B8743D;
+}
+
+.options input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.options input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -55%) rotate(45deg);
+}
+
+.submit-section {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.submit-btn {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  padding: 16px 48px;
+  background: #1A1A1A;
+  color: #E8DFD0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #B8743D;
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.progress {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #B8743D;
+  margin-bottom: 12px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 0.5px solid rgba(26,26,26,0.15);
+}
+
+.footer-brand {
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  opacity: 0.4;
+}
+
+.footer-note {
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.35;
+  margin-top: 6px;
+}
+
+.thank-you {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.thank-you h2 {
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.thank-you p {
+  font-size: 16px;
+  opacity: 0.65;
+  line-height: 1.7;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.stitch-icon {
+  margin: 24px auto;
+  width: 60px;
+  height: 30px;
+}
+</style>
+</head>
+<body>
+
+<div class="survey" id="surveyForm">
+
+  <div class="header">
+    <div class="brand">TENDER<span class="dot">.</span>KNIT</div>
+    <div class="tagline">Knitted slow. Worn long.</div>
+    <div class="divider"></div>
+    <p class="intro">
+      Tworzę kolekcję ręcznie dzierganych dodatków z luksusowych włóczek.
+      Zanim zacznę — chcę zapytać Ciebie. Ankieta zajmie 2 minuty.
+    </p>
+  </div>
+
+  <div class="progress" id="progress">0 / 5 odpowiedzi</div>
+
+  <!-- PYTANIE 1 -->
+  <div class="question-card" id="q1card">
+    <div class="q-number">PYTANIE 01</div>
+    <div class="q-text">Czy w ciągu ostatnich 12 miesięcy kupiłaś dla siebie lub w prezencie czapkę, szalik lub apaszkę za ponad 200&nbsp;zł?</div>
+    <ul class="options">
+      <li><label><input type="radio" name="q1" value="self" onchange="updateProgress()"> Tak, dla siebie</label></li>
+      <li><label><input type="radio" name="q1" value="gift" onchange="updateProgress()"> Tak, jako prezent</label></li>
+      <li><label><input type="radio" name="q1" value="both" onchange="updateProgress()"> Tak, jedno i drugie</label></li>
+      <li><label><input type="radio" name="q1" value="no" onchange="updateProgress()"> Nie</label></li>
+    </ul>
+  </div>
+
+  <!-- PYTANIE 2 -->
+  <div class="question-card" id="q2card">
+    <div class="q-number">PYTANIE 02</div>
+    <div class="q-text">Co jest dla Ciebie najważniejsze przy wyborze zimowych dodatków?</div>
+    <div class="q-hint">Wybierz maksymalnie 2 odpowiedzi</div>
+    <ul class="options">
+      <li><label><input type="checkbox" name="q2" value="material" onchange="limitCheckbox(this, 2); updateProgress()"> Jakość materiału (kaszmir, merino, mohair)</label></li>
+      <li><label><input type="checkbox" name="q2" value="unique" onchange="limitCheckbox(this, 2); updateProgress()"> Unikalna, autorska rzecz, której nie ma nikt inny</label></li>
+      <li><label><input type="checkbox" name="q2" value="comfort" onchange="limitCheckbox(this, 2); updateProgress()"> Wygoda i ciepło przede wszystkim</label></li>
+      <li><label><input type="checkbox" name="q2" value="brand" onchange="limitCheckbox(this, 2); updateProgress()"> Znana marka lub projektant/ka</label></li>
+      <li><label><input type="checkbox" name="q2" value="price" onchange="limitCheckbox(this, 2); updateProgress()"> Niska cena</label></li>
+    </ul>
+  </div>
+
+  <!-- PYTANIE 3 -->
+  <div class="question-card" id="q3card">
+    <div class="q-number">PYTANIE 03</div>
+    <div class="q-text">Ile jesteś skłonna zapłacić za ręcznie dzierganą czapkę z kaszmiru, jeśli wiesz, że jest robiona na zamówienie, numerowana i&nbsp;limitowana?</div>
+    <ul class="options">
+      <li><label><input type="radio" name="q3" value="150" onchange="updateProgress()"> Do 150 zł</label></li>
+      <li><label><input type="radio" name="q3" value="150-300" onchange="updateProgress()"> 150–300 zł</label></li>
+      <li><label><input type="radio" name="q3" value="300-500" onchange="updateProgress()"> 300–500 zł</label></li>
+      <li><label><input type="radio" name="q3" value="500+" onchange="updateProgress()"> Powyżej 500 zł</label></li>
+      <li><label><input type="radio" name="q3" value="none" onchange="updateProgress()"> Nie kupuję takich rzeczy</label></li>
+    </ul>
+  </div>
+
+  <!-- PYTANIE 4 -->
+  <div class="question-card" id="q4card">
+    <div class="q-number">PYTANIE 04</div>
+    <div class="q-text">Gdzie najchętniej odkrywasz i kupujesz autorskie rękodzieło?</div>
+    <div class="q-hint">Wybierz maksymalnie 2 odpowiedzi</div>
+    <ul class="options">
+      <li><label><input type="checkbox" name="q4" value="instagram" onchange="limitCheckbox(this, 2); updateProgress()"> Instagram</label></li>
+      <li><label><input type="checkbox" name="q4" value="fairs" onchange="limitCheckbox(this, 2); updateProgress()"> Targi i markety rękodzielnicze</label></li>
+      <li><label><input type="checkbox" name="q4" value="referral" onchange="limitCheckbox(this, 2); updateProgress()"> Polecenie znajomej</label></li>
+      <li><label><input type="checkbox" name="q4" value="etsy" onchange="limitCheckbox(this, 2); updateProgress()"> Etsy lub inne platformy online</label></li>
+      <li><label><input type="checkbox" name="q4" value="boutique" onchange="limitCheckbox(this, 2); updateProgress()"> Butiki stacjonarne</label></li>
+    </ul>
+  </div>
+
+  <!-- PYTANIE 5 -->
+  <div class="question-card" id="q5card">
+    <div class="q-number">PYTANIE 05</div>
+    <div class="q-text">Gdyby polska artystka wypuściła limitowaną kolekcję 15&nbsp;sztuk kaszmirowych dodatków na zimę w&nbsp;systemie pre-order — co skłoniłoby Cię do zamówienia?</div>
+    <div class="q-hint">Wybierz 1 odpowiedź</div>
+    <ul class="options">
+      <li><label><input type="radio" name="q5" value="photos" onchange="updateProgress()"> Piękne zdjęcia produktu i spójna estetyka marki</label></li>
+      <li><label><input type="radio" name="q5" value="custom" onchange="updateProgress()"> Możliwość wyboru koloru lub personalizacji</label></li>
+      <li><label><input type="radio" name="q5" value="story" onchange="updateProgress()"> Historia osoby, która to robi — chcę wiedzieć, od kogo kupuję</label></li>
+      <li><label><input type="radio" name="q5" value="cert" onchange="updateProgress()"> Certyfikat materiału (skład, pochodzenie włóczki)</label></li>
+      <li><label><input type="radio" name="q5" value="none" onchange="updateProgress()"> Nic z powyższych — nie zamawiałabym w pre-orderze</label></li>
+    </ul>
+  </div>
+
+  <div class="submit-section">
+    <button class="submit-btn" id="submitBtn" disabled onclick="submitSurvey()">WYŚLIJ ODPOWIEDZI</button>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">TENDER<span class="dot">.</span>KNIT</div>
+    <div class="footer-note">Dziękuję za Twój czas. Każda odpowiedź pomaga mi tworzyć lepiej.</div>
+  </div>
+</div>
+
+<!-- THANK YOU SCREEN -->
+<div class="thank-you" id="thankYou">
+  <svg class="stitch-icon" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 5,18 Q 12,6 19,18 Q 26,30 33,18 Q 40,6 47,18 Q 50,22 53,16" fill="none" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="53" cy="16" r="3" fill="#B8743D"/>
+  </svg>
+  <h2>Dziękuję pięknie</h2>
+  <div class="divider"></div>
+  <p>Twoje odpowiedzi pomogą mi stworzyć kolekcję, która naprawdę ma sens. Jeśli chcesz zobaczyć, co z tego wyniknie — obserwuj <strong>@tender.knit</strong></p>
+  <div style="margin-top: 40px;">
+    <div class="footer-brand">TENDER<span class="dot">.</span>KNIT</div>
+    <div class="footer-note">Knitted slow. Worn long.</div>
+  </div>
+</div>
+
+<script>
+function updateProgress() {
+  let answered = 0;
+  const questions = ['q1','q2','q3','q4','q5'];
+  const cards = ['q1card','q2card','q3card','q4card','q5card'];
+  
+  questions.forEach((q, i) => {
+    const inputs = document.querySelectorAll(`input[name="${q}"]`);
+    const any = Array.from(inputs).some(inp => inp.checked);
+    if (any) {
+      answered++;
+      document.getElementById(cards[i]).classList.add('answered');
+    } else {
+      document.getElementById(cards[i]).classList.remove('answered');
+    }
+  });
+  
+  document.getElementById('progress').textContent = answered + ' / 5 odpowiedzi';
+  document.getElementById('submitBtn').disabled = (answered < 5);
+}
+
+function limitCheckbox(el, max) {
+  const name = el.name;
+  const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+  if (checked.length > max) {
+    el.checked = false;
+  }
+}
+
+function submitSurvey() {
+  document.getElementById('surveyForm').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
